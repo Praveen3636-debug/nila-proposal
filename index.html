@@ -302,12 +302,12 @@ hr.thin{ border:none; border-top:1px solid var(--line); width:64px; margin:26px 
    PAGE 11 — LETTER
    ============================================================ */
 #p11{ background:radial-gradient(ellipse at 50% 40%,#11193a,#05070d 70%); }
-#envelope{ position:relative; width:min(360px,82vw); height:230px; margin:0 auto 24px; cursor:pointer; }
+#envelope{ position:relative; width:min(360px,82vw); height:230px; margin:0 auto 24px; cursor:pointer; perspective:700px; }
 .env-body{ position:absolute; inset:0; background:linear-gradient(160deg,#e9dcc2,#d8c6a0); border-radius:8px; box-shadow:0 18px 40px rgba(0,0,0,0.5); }
 .env-flap{
   position:absolute; top:0; left:0; right:0; height:50%; background:linear-gradient(160deg,#f3ecdd,#e3d3ad);
   clip-path:polygon(0 0,100% 0,50% 100%); transform-origin:top; transition:transform .8s cubic-bezier(.6,0,.4,1); border-radius:8px 8px 0 0;
-  z-index:2;
+  z-index:2; backface-visibility:hidden;
 }
 #envelope.open .env-flap{ transform:rotateX(170deg); }
 .env-seal{ position:absolute; top:42%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; z-index:3; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
@@ -324,9 +324,9 @@ hr.thin{ border:none; border-top:1px solid var(--line); width:64px; margin:26px 
    PAGE 12 — PROPOSAL
    ============================================================ */
 #p12{ background:radial-gradient(ellipse at 50% 30%, #15205a 0%, #05070d 70%); position:relative; }
-#ring-box-wrap{ position:relative; width:200px; height:160px; margin:0 auto 30px; }
+#ring-box-wrap{ position:relative; width:200px; height:160px; margin:0 auto 30px; perspective:800px; }
 .ring-box-base{ position:absolute; bottom:0; left:0; width:100%; height:90px; background:linear-gradient(160deg,#3a1c1c,#220f0f); border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,0.6); }
-.ring-box-lid{ position:absolute; top:0; left:0; width:100%; height:70px; background:linear-gradient(160deg,#4a2424,#2a1414); border-radius:10px 10px 4px 4px; transform-origin:bottom; transition:transform 1s cubic-bezier(.34,1.56,.64,1); z-index:5; box-shadow:0 8px 20px rgba(0,0,0,0.4); }
+.ring-box-lid{ position:absolute; top:0; left:0; width:100%; height:70px; background:linear-gradient(160deg,#4a2424,#2a1414); border-radius:10px 10px 4px 4px; transform-origin:bottom; transition:transform 1s cubic-bezier(.34,1.56,.64,1); z-index:5; box-shadow:0 8px 20px rgba(0,0,0,0.4); transform-style:preserve-3d; backface-visibility:hidden; }
 #ring-box-wrap.opened .ring-box-lid{ transform:rotateX(-130deg) translateY(-4px); }
 .ring-graphic{ position:absolute; bottom:46px; left:50%; transform:translate(-50%,30px) scale(0.4); opacity:0; width:46px; height:46px; transition:transform 1.1s cubic-bezier(.34,1.56,.64,1) .35s, opacity .5s .35s; }
 #ring-box-wrap.opened .ring-graphic{ transform:translate(-50%,-86px) scale(1); opacity:1; }
@@ -357,17 +357,17 @@ hr.thin{ border:none; border-top:1px solid var(--line); width:64px; margin:26px 
 <div id="nila-moon-wrap">
   <svg viewBox="0 0 100 100">
     <defs>
+      <radialGradient id="moonGrad" cx="35%" cy="35%">
+        <stop offset="0%" stop-color="#fff7df"/>
+        <stop offset="60%" stop-color="#e8caa0"/>
+        <stop offset="100%" stop-color="#d4af6a"/>
+      </radialGradient>
       <mask id="moon-mask">
         <rect width="100" height="100" fill="white"/>
         <circle id="moon-shadow" cx="100" cy="50" r="38" fill="black"/>
       </mask>
     </defs>
     <circle cx="50" cy="50" r="38" fill="url(#moonGrad)" mask="url(#moon-mask)"/>
-    <radialGradient id="moonGrad" cx="35%" cy="35%">
-      <stop offset="0%" stop-color="#fff7df"/>
-      <stop offset="60%" stop-color="#e8caa0"/>
-      <stop offset="100%" stop-color="#d4af6a"/>
-    </radialGradient>
   </svg>
   <div id="nila-moon-label">our story</div>
 </div>
@@ -375,6 +375,7 @@ hr.thin{ border:none; border-top:1px solid var(--line); width:64px; margin:26px 
 <!-- audio toggle -->
 <div id="audio-toggle" aria-label="toggle music" title="Toggle music">
   <svg id="icon-sound-on" viewBox="0 0 24 24"><path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+  <svg id="icon-sound-off" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.93 8.93 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
 </div>
 
 <div id="scroller">
@@ -694,7 +695,7 @@ hr.thin{ border:none; border-top:1px solid var(--line); width:64px; margin:26px 
         <button class="btn" id="yes-btn">Yes, a thousand times</button>
       </div>
       <div id="big-yes-msg">From a comment section to forever. Thank you for saying yes, Nila. 🌙</div>
-      <div class="btn-row" style="margin-top:30px;" id="relive-row" style="display:none;">
+      <div class="btn-row" id="relive-row" style="margin-top:30px; display:none;">
         <button class="btn ghost" id="relive-btn">Relive Our Story</button>
       </div>
     </div>
@@ -741,11 +742,15 @@ try{
 }catch(e){ /* audio optional */ }
 let audioOn = false;
 const audioBtn = document.getElementById('audio-toggle');
+const iconOn = document.getElementById('icon-sound-on');
+const iconOff = document.getElementById('icon-sound-off');
 audioBtn.addEventListener('click', ()=>{
   audioOn = !audioOn;
-  if(!sound) return;
-  if(audioOn){ sound.play(); audioBtn.style.opacity=1; }
-  else{ sound.pause(); }
+  if(sound){
+    if(audioOn){ sound.play(); } else { sound.pause(); }
+  }
+  iconOn.style.display = audioOn ? 'block' : 'none';
+  iconOff.style.display = audioOn ? 'none' : 'block';
   audioBtn.style.boxShadow = audioOn ? '0 0 18px rgba(212,175,106,0.6)' : 'none';
 });
 
@@ -833,6 +838,14 @@ document.getElementById('replay-distance').addEventListener('click', playDistanc
   const cards = document.querySelectorAll('#p4 .quote-card');
   const dotsWrap = document.getElementById('quote-dots');
   let idx = 0;
+
+  // Store each card's original Tamil text once, up front, so the typewriter
+  // transition never reads back its own (possibly mutated/partial) text.
+  cards.forEach(c=>{
+    const t = c.querySelector('.quote-tamil');
+    t.dataset.fullText = t.textContent;
+  });
+
   cards.forEach((c,i)=>{
     const d = document.createElement('button');
     d.className = 'dot'+(i===0?' is-active':'');
@@ -853,20 +866,38 @@ document.getElementById('replay-distance').addEventListener('click', playDistanc
     (el)=>{
       gsap.set(el,{opacity:1});
       const t = el.querySelector('.quote-tamil');
-      const txt = t.textContent; t.textContent='';
-      gsap.to({},{duration:0.01,onComplete:()=>{
-        let i=0;
-        const iv = setInterval(()=>{ t.textContent += txt[i]; i++; if(i>=txt.length) clearInterval(iv); }, 22);
-      }});
+      if(t._typeInterval) clearInterval(t._typeInterval);
+      const txt = t.dataset.fullText;
+      t.textContent='';
+      let i=0;
+      t._typeInterval = setInterval(()=>{
+        t.textContent += txt[i]; i++;
+        if(i>=txt.length) clearInterval(t._typeInterval);
+      }, 22);
     }
   ];
+  function resetCard(card){
+    // stop any running typewriter interval left on this card
+    const t = card.querySelector('.quote-tamil');
+    if(t._typeInterval){ clearInterval(t._typeInterval); t._typeInterval=null; t.textContent = t.dataset.fullText; }
+    // kill any in-progress tween and strip the inline styles GSAP left behind,
+    // so the base CSS rule (opacity:0, hidden) takes over again
+    gsap.killTweensOf(card);
+    gsap.killTweensOf(card.querySelectorAll('.quote-tamil, .quote-en'));
+    gsap.set(card, {clearProps:'all'});
+    gsap.set(card.querySelectorAll('.quote-tamil, .quote-en'), {clearProps:'all'});
+  }
   function goTo(i){
-    cards[idx].classList.remove('is-active');
+    if(i === idx) return;
+    const oldCard = cards[idx];
+    oldCard.classList.remove('is-active');
     dots[idx].classList.remove('is-active');
+    resetCard(oldCard);
     idx = (i+cards.length)%cards.length;
-    cards[idx].classList.add('is-active');
+    const newCard = cards[idx];
+    newCard.classList.add('is-active');
     dots[idx].classList.add('is-active');
-    transitions[idx % transitions.length](cards[idx]);
+    transitions[idx % transitions.length](newCard);
   }
   document.getElementById('quote-next').addEventListener('click', ()=>goTo(idx+1));
   document.getElementById('quote-prev').addEventListener('click', ()=>goTo(idx-1));
@@ -957,17 +988,11 @@ document.getElementById('replay-distance').addEventListener('click', playDistanc
     for(let i=0;i<SLOT_COUNT;i++){
       const slot = document.createElement('div');
       slot.className='drop-slot';
-      const left = 60 + (trackWidth/(SLOT_COUNT+1))*(i+1) - 30; // relative to wrap, slots offset already inset
-      slot.style.left = (60 + (trackWidth/(SLOT_COUNT-1+0.001))*i) + 'px';
+      const t = (i+1)/(SLOT_COUNT+1);
+      slot.style.left = (60 + trackWidth*t) + 'px';
       slot.dataset.index = i;
       slotsWrap.appendChild(slot);
     }
-    // reposition slots evenly between the two track ends
-    const slotEls = slotsWrap.querySelectorAll('.drop-slot');
-    slotEls.forEach((s,i)=>{
-      const t = (i+1)/(SLOT_COUNT+1);
-      s.style.left = (60 + trackWidth*t) + 'px';
-    });
     for(let i=0;i<SLOT_COUNT;i++){
       const h = document.createElement('div');
       h.className='heart-drag';
@@ -1021,7 +1046,10 @@ document.getElementById('replay-distance').addEventListener('click', playDistanc
         }
       });
       if(!landed){
-        el.style.position='absolute'; el.style.left='0'; el.style.top='0'; el.style.zIndex='auto';
+        el.style.position='';
+        el.style.left='';
+        el.style.top='';
+        el.style.zIndex='';
         pool.appendChild(el);
       }
     }
